@@ -3,13 +3,18 @@ package com.kaushal.rentmanagement.dto;
 public class DashboardDto {
 
     private Long flatId;
+
     private String flatNumber;
 
     private Long tenantId;
+
     private String tenantName;
 
     private Double rent;
+
     private Double paid;
+
+    private Double balance;
 
     public DashboardDto() {
     }
@@ -61,4 +66,13 @@ public class DashboardDto {
     public void setPaid(Double paid) {
         this.paid = paid;
     }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+
 }

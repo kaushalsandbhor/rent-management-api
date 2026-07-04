@@ -1,6 +1,7 @@
 package com.kaushal.rentmanagement.service;
 
 import com.kaushal.rentmanagement.dto.CreateTenantDto;
+import com.kaushal.rentmanagement.dto.TenantDto;
 import com.kaushal.rentmanagement.dto.UpdateTenantDto;
 import com.kaushal.rentmanagement.dto.VacateTenantDto;
 import com.kaushal.rentmanagement.entity.Flat;
@@ -8,6 +9,9 @@ import com.kaushal.rentmanagement.entity.Tenant;
 import com.kaushal.rentmanagement.repository.FlatRepository;
 import com.kaushal.rentmanagement.repository.TenantRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TenantService {
@@ -74,6 +78,32 @@ public class TenantService {
         tenant.setLeavingDate(dto.getLeavingDate());
 
         tenantRepository.save(tenant);
+
+    }
+
+    public List<TenantDto> getAllTenants() {
+
+        List<Tenant> tenants = tenantRepository.findAll();
+
+        List<TenantDto> response = new ArrayList<>();
+
+        for (Tenant tenant : tenants) {
+
+            TenantDto dto = new TenantDto();
+
+            dto.setId(tenant.getId());
+            dto.setName(tenant.getName());
+            dto.setPhone(tenant.getPhone());
+            dto.setDeposit(tenant.getDeposit());
+            dto.setJoiningDate(tenant.getJoiningDate());
+            dto.setLeavingDate(tenant.getLeavingDate());
+            dto.setFlatNumber(tenant.getFlat().getFlatNumber());
+
+            response.add(dto);
+
+        }
+
+        return response;
 
     }
 }

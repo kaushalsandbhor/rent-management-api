@@ -1,10 +1,10 @@
 package com.kaushal.rentmanagement.controller;
 
-import com.kaushal.rentmanagement.dto.CreateTenantDto;
-import com.kaushal.rentmanagement.dto.UpdateTenantDto;
-import com.kaushal.rentmanagement.dto.VacateTenantDto;
+import com.kaushal.rentmanagement.dto.*;
 import com.kaushal.rentmanagement.service.TenantService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/tenants")
@@ -18,16 +18,19 @@ public class TenantController {
     }
 
     @PostMapping
-    public String assignTenant(@RequestBody CreateTenantDto dto) {
+    public ApiResponse assignTenant(@RequestBody CreateTenantDto dto) {
 
         tenantService.assignTenant(dto);
 
-        return "Tenant assigned successfully.";
+        return new ApiResponse(
+                true,
+                "Tenant assigned successfully."
+        );
 
     }
 
     @PutMapping("/{id}")
-    public String updateTenant(
+    public ApiResponse updateTenant(
 
             @PathVariable Long id,
 
@@ -37,12 +40,15 @@ public class TenantController {
 
         tenantService.updateTenant(id, dto);
 
-        return "Tenant updated successfully.";
+        return new ApiResponse(
+                true,
+                "Tenant updated successfully."
+        );
 
     }
 
     @PutMapping("/{id}/vacate")
-    public String vacateTenant(
+    public ApiResponse vacateTenant(
 
             @PathVariable Long id,
 
@@ -52,7 +58,17 @@ public class TenantController {
 
         tenantService.vacateTenant(id, dto);
 
-        return "Tenant vacated successfully.";
+        return new ApiResponse(
+                true,
+                "Tenant vacated successfully."
+        );
+
+    }
+
+    @GetMapping
+    public List<TenantDto> getAllTenants() {
+
+        return tenantService.getAllTenants();
 
     }
 
