@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class DashboardService {
@@ -37,6 +39,37 @@ public class DashboardService {
 
         List<Flat> flats = flatRepository.findAll();
 
+        List<Tenant> tenants =
+                tenantRepository.findBillingTenants(billingDate);
+
+        List<Payment> payments =
+                paymentRepository.findByBillingMonthAndBillingYear(
+                        month,
+                        year
+                );
+
+        Map<Long, Tenant> tenantMap = new HashMap<>();
+
+        for (Tenant tenant : tenants) {
+
+            tenantMap.put(
+                    tenant.getFlat().getId(),
+                    tenant
+            );
+
+        }
+
+        Map<Long, Payment> paymentMap = new HashMap<>();
+
+        for (Payment payment : payments) {
+
+            paymentMap.put(
+                    payment.getTenant().getId(),
+                    payment
+            );
+
+        }
+
         List<DashboardDto> response = new ArrayList<>();
 
         for (Flat flat : flats) {
@@ -46,38 +79,32 @@ public class DashboardService {
             dto.setFlatId(flat.getId());
             dto.setFlatNumber(flat.getFlatNumber());
 
-            Optional<Tenant> tenantOptional =
-                    tenantRepository.findBillingTenant(flat, billingDate);
+            Tenant tenant = tenantMap.get(flat.getId());
 
-            if (tenantOptional.isPresent()) {
-
-                Tenant tenant = tenantOptional.get();
+            if (tenant != null) {
 
                 dto.setTenantId(tenant.getId());
                 dto.setTenantName(tenant.getName());
 
-                Optional<Payment> paymentOptional =
-                        paymentRepository.findByTenantAndBillingMonthAndBillingYear(
-                                tenant,
-                                month,
-                                year
-                        );
+                Payment payment =
+                        paymentMap.get(tenant.getId());
 
-                if (paymentOptional.isPresent()) {
-
-                    Payment payment = paymentOptional.get();
+                if (payment != null) {
 
                     dto.setRent(payment.getRentAmount());
                     dto.setPaid(payment.getPaidAmount());
                     dto.setBalance(
-                            payment.getRentAmount() - payment.getPaidAmount()
+                            payment.getRentAmount()
+                                    - payment.getPaidAmount()
                     );
 
                 } else {
 
                     dto.setRent(flat.getCurrentMonthlyRent());
                     dto.setPaid(0.0);
-                    dto.setBalance(flat.getCurrentMonthlyRent());
+                    dto.setBalance(
+                            flat.getCurrentMonthlyRent()
+                    );
 
                 }
 
@@ -91,7 +118,6 @@ public class DashboardService {
 
             }
 
-            // Billing period
             dto.setBillingMonth(month);
             dto.setBillingYear(year);
 

@@ -33,7 +33,7 @@ public class TenantService {
                 .orElseThrow(() -> new RuntimeException("Flat not found"));
 
         // Prevent assigning a tenant to an already occupied flat
-        if (tenantRepository.findActiveTenant(flat, dto.getJoiningDate()).isPresent()) {
+        if (tenantRepository.findBillingTenant(flat, dto.getJoiningDate()).isPresent()) {
             throw new RuntimeException("Flat is already occupied.");
         }
 
