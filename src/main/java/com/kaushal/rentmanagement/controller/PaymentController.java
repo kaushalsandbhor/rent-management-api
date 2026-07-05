@@ -1,5 +1,6 @@
 package com.kaushal.rentmanagement.controller;
 
+import com.kaushal.rentmanagement.dto.ApiResponse;
 import com.kaushal.rentmanagement.dto.CollectPaymentDto;
 import com.kaushal.rentmanagement.service.PaymentService;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +20,14 @@ public class PaymentController {
     }
 
     @PutMapping("/collect")
-    public String collectPayment(
-            @RequestBody CollectPaymentDto dto
-    ) {
+    public ApiResponse collectPayment(@RequestBody CollectPaymentDto dto) {
 
         paymentService.collectPayment(dto);
 
-        return "Payment saved successfully.";
+        return new ApiResponse(
+                true,
+                "Payment saved successfully."
+        );
 
     }
 
