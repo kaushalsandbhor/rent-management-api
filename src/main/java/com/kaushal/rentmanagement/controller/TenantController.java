@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("/api/tenants")
 @CrossOrigin(origins = {
         "http://localhost:4200",
-        "https://your-netlify-site.netlify.app"
+        "https://moonlit-crisp-51b17b.netlify.app"
 })
 public class TenantController {
 
