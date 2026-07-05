@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/payments")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {
+        "http://localhost:4200",
+        "https://your-netlify-site.netlify.app"
+})
 public class PaymentController {
 
     private final PaymentService paymentService;

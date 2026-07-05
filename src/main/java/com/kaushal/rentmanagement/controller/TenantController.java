@@ -8,7 +8,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tenants")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {
+        "http://localhost:4200",
+        "https://your-netlify-site.netlify.app"
+})
 public class TenantController {
 
     private final TenantService tenantService;
