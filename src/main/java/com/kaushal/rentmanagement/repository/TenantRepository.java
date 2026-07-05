@@ -40,4 +40,20 @@ public interface TenantRepository extends JpaRepository<Tenant, Long> {
             @Param("billingDate") LocalDate billingDate
     );
 
+    @Query("""
+SELECT t.flat.id
+FROM Tenant t
+WHERE
+t.joiningDate <= :joiningDate
+AND
+(
+t.leavingDate IS NULL
+OR t.leavingDate >= :joiningDate
+)
+""")
+    List<Long> findOccupiedFlatIds(
+            @Param("joiningDate")
+            LocalDate joiningDate
+    );
+
 }
