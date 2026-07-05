@@ -16,6 +16,27 @@ public class DashboardDto {
 
     private Double balance;
 
+    private Integer billingMonth;
+
+    private Integer billingYear;
+
+    public Integer getBillingYear() {
+        return billingYear;
+    }
+
+    public void setBillingYear(Integer billingYear) {
+        this.billingYear = billingYear;
+    }
+
+    public Integer getBillingMonth() {
+        return billingMonth;
+    }
+
+    public void setBillingMonth(Integer billingMonth) {
+        this.billingMonth = billingMonth;
+    }
+
+
     public DashboardDto() {
     }
 

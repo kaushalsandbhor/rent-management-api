@@ -68,9 +68,7 @@ public class DashboardService {
                     Payment payment = paymentOptional.get();
 
                     dto.setRent(payment.getRentAmount());
-
                     dto.setPaid(payment.getPaidAmount());
-
                     dto.setBalance(
                             payment.getRentAmount() - payment.getPaidAmount()
                     );
@@ -78,9 +76,7 @@ public class DashboardService {
                 } else {
 
                     dto.setRent(flat.getCurrentMonthlyRent());
-
                     dto.setPaid(0.0);
-
                     dto.setBalance(flat.getCurrentMonthlyRent());
 
                 }
@@ -90,12 +86,14 @@ public class DashboardService {
                 dto.setTenantId(null);
                 dto.setTenantName(null);
                 dto.setRent(null);
-
                 dto.setPaid(null);
-
                 dto.setBalance(null);
 
             }
+
+            // Billing period
+            dto.setBillingMonth(month);
+            dto.setBillingYear(year);
 
             response.add(dto);
 
