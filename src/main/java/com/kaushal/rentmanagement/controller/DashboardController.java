@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/dashboard")
 @CrossOrigin(origins = {
         "http://localhost:4200",
-        "https://moonlit-crisp-51b17b.netlify.app"
+        "https://rent-management-ui.onrender.com"
 })
 public class DashboardController {
 

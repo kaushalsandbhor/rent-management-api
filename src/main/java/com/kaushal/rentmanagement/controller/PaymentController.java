@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/payments")
 @CrossOrigin(origins = {
         "http://localhost:4200",
-        "https://moonlit-crisp-51b17b.netlify.app"
+        "https://rent-management-ui.onrender.com"
 })
 public class PaymentController {
 
