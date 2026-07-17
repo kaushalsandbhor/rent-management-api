@@ -22,15 +22,18 @@ public class DashboardService {
     private final FlatRepository flatRepository;
     private final TenantRepository tenantRepository;
     private final PaymentRepository paymentRepository;
+    private final RentService rentService;
 
     public DashboardService(
             FlatRepository flatRepository,
             TenantRepository tenantRepository,
-            PaymentRepository paymentRepository
+            PaymentRepository paymentRepository,
+            RentService rentService
     ) {
         this.flatRepository = flatRepository;
         this.tenantRepository = tenantRepository;
         this.paymentRepository = paymentRepository;
+        this.rentService = rentService;
     }
 
     public List<DashboardDto> getDashboard(Integer month, Integer year) {
@@ -93,12 +96,14 @@ public class DashboardService {
 
                     dto.setRent(payment.getRentAmount());
                     dto.setPaid(payment.getPaidAmount());
+                    Double rent = rentService.getRentForDate(billingDate);
+
                     dto.setBalance(
-                            payment.getRentAmount()
-                                    - payment.getPaidAmount()
+                            rent - payment.getPaidAmount()
                     );
 
                 } else {
+                    Double rent = rentService.getRentForDate(billingDate);
 
                     dto.setRent(flat.getCurrentMonthlyRent());
                     dto.setPaid(0.0);
