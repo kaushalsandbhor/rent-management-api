@@ -13,11 +13,15 @@ public class Flat {
     @Column(nullable = false, unique = true)
     private String flatNumber;
 
-    @Column(nullable = false)
-    private Double currentMonthlyRent;
+    public Flat() {
+    }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFlatNumber() {
@@ -28,11 +32,4 @@ public class Flat {
         this.flatNumber = flatNumber;
     }
 
-    public Double getCurrentMonthlyRent() {
-        return currentMonthlyRent;
-    }
-
-    public void setCurrentMonthlyRent(Double currentMonthlyRent) {
-        this.currentMonthlyRent = currentMonthlyRent;
-    }
 }

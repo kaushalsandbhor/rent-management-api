@@ -34,17 +34,15 @@ public class RentService {
 
     public CurrentRentDto getCurrentRent() {
 
-        RentHistory rent =
-                rentHistoryRepository
-                        .findTopByOrderByEffectiveFromDesc()
-                        .orElseThrow();
+        LocalDate today = LocalDate.now();
+
+        RentHistory rent = rentHistoryRepository
+                .findTopByEffectiveFromLessThanEqualOrderByEffectiveFromDesc(today)
+                .orElseThrow();
 
         return new CurrentRentDto(
-
                 rent.getRentAmount(),
-
                 rent.getEffectiveFrom()
-
         );
 
     }

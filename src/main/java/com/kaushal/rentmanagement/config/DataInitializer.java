@@ -28,7 +28,6 @@ public class DataInitializer {
                 Flat flat = new Flat();
 
                 flat.setFlatNumber(number);
-                flat.setCurrentMonthlyRent(5800.0);
 
                 flatRepository.save(flat);
             }

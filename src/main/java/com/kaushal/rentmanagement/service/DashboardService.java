@@ -11,9 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -54,23 +53,19 @@ public class DashboardService {
         Map<Long, Tenant> tenantMap = new HashMap<>();
 
         for (Tenant tenant : tenants) {
-
             tenantMap.put(
                     tenant.getFlat().getId(),
                     tenant
             );
-
         }
 
         Map<Long, Payment> paymentMap = new HashMap<>();
 
         for (Payment payment : payments) {
-
             paymentMap.put(
                     payment.getTenant().getId(),
                     payment
             );
-
         }
 
         List<DashboardDto> response = new ArrayList<>();
@@ -89,27 +84,23 @@ public class DashboardService {
                 dto.setTenantId(tenant.getId());
                 dto.setTenantName(tenant.getName());
 
-                Payment payment =
-                        paymentMap.get(tenant.getId());
+                Double rent = rentService.getRentForDate(billingDate);
+
+                Payment payment = paymentMap.get(tenant.getId());
 
                 if (payment != null) {
 
                     dto.setRent(payment.getRentAmount());
                     dto.setPaid(payment.getPaidAmount());
-                    Double rent = rentService.getRentForDate(billingDate);
-
                     dto.setBalance(
-                            rent - payment.getPaidAmount()
+                            payment.getRentAmount() - payment.getPaidAmount()
                     );
 
                 } else {
-                    Double rent = rentService.getRentForDate(billingDate);
 
-                    dto.setRent(flat.getCurrentMonthlyRent());
+                    dto.setRent(rent);
                     dto.setPaid(0.0);
-                    dto.setBalance(
-                            flat.getCurrentMonthlyRent()
-                    );
+                    dto.setBalance(rent);
 
                 }
 
