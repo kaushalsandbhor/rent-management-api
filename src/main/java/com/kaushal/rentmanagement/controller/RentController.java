@@ -1,11 +1,13 @@
 package com.kaushal.rentmanagement.controller;
 
+import com.kaushal.rentmanagement.dto.ApiResponse;
 import com.kaushal.rentmanagement.dto.ChangeRentDto;
 import com.kaushal.rentmanagement.dto.CurrentRentDto;
 import com.kaushal.rentmanagement.dto.RentHistoryDto;
 import com.kaushal.rentmanagement.service.RentService;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -31,13 +33,18 @@ public class RentController {
     }
 
     @PostMapping("/change")
-    public String change(
+    public ResponseEntity<ApiResponse> change(
             @Valid @RequestBody ChangeRentDto dto
     ) {
 
         rentService.changeRent(dto);
 
-        return "Rent updated successfully.";
+        return ResponseEntity.ok(
+                new ApiResponse(
+                        true,
+                        "Rent updated successfully."
+                )
+        );
     }
 
     @GetMapping("/history")
